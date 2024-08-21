@@ -1,0 +1,196 @@
+{
+    "name": "superpower_characters",
+    "answer_template": "<bridge> - an attribute that both characters <entity1> and <entity2> possess.",
+    "swappable": true,
+    "examples": [
+        {
+            "bridge": "kryptonian",
+            "entity_pair": [
+                "Superman",
+                "Supergirl"
+            ]
+        },
+        {
+            "bridge": "speedster",
+            "entity_pair": [
+                "Flash",
+                "Quicksilver"
+            ]
+        },
+        {
+            "bridge": "billionaire",
+            "entity_pair": [
+                "Batman",
+                "Ironman"
+            ]
+        },
+        {
+            "bridge": "blind",
+            "entity_pair": [
+                "Daredevil",
+                "Toph Beifong"
+            ]
+        },
+        {
+            "bridge": "telepath",
+            "entity_pair": [
+                "Professor X",
+                "Jean Grey"
+            ]
+        },
+        {
+            "bridge": "healing factor",
+            "entity_pair": [
+                "Wolverine",
+                "Deadpool"
+            ]
+        },
+        {
+            "bridge": "archer",
+            "entity_pair": [
+                "Green Arrow",
+                "Hawkeye"
+            ]
+        },
+        {
+            "bridge": "elemental control",
+            "entity_pair": [
+                "Storm",
+                "Aang"
+            ]
+        },
+        {
+            "bridge": "shape-shifter",
+            "entity_pair": [
+                "Mystique",
+                "Martian Manhunter"
+            ]
+        },
+        {
+            "bridge": "alien warrior",
+            "entity_pair": [
+                "Thor",
+                "Wonder Woman"
+            ]
+        },
+        {
+            "bridge": "magic user",
+            "entity_pair": [
+                "Doctor Strange",
+                "Zatanna"
+            ]
+        },
+        {
+            "bridge": "super soldier",
+            "entity_pair": [
+                "Captain America",
+                "Deathstroke"
+            ]
+        },
+        {
+            "bridge": "genius inventor",
+            "entity_pair": [
+                "Reed Richards",
+                "Tony Stark"
+            ]
+        },
+        {
+            "bridge": "animal powers",
+            "entity_pair": [
+                "Beast Boy",
+                "Vixen"
+            ]
+        },
+        {
+            "bridge": "cosmic power",
+            "entity_pair": [
+                "Silver Surfer",
+                "Green Lantern"
+            ]
+        },
+        {
+            "bridge": "anti-hero",
+            "entity_pair": [
+                "Punisher",
+                "Red Hood"
+            ]
+        },
+        {
+            "bridge": "symbiote",
+            "entity_pair": [
+                "Venom",
+                "Carnage"
+            ]
+        },
+        {
+            "bridge": "time traveler",
+            "entity_pair": [
+                "Cable",
+                "Trunks"
+            ]
+        },
+        {
+            "bridge": "telekinesis",
+            "entity_pair": [
+                "Scarlet Witch",
+                "Psylocke"
+            ]
+        },
+        {
+            "bridge": "immortal",
+            "entity_pair": [
+                "Ra's al Ghul",
+                "Vandal Savage"
+            ]
+        },
+        {
+            "bridge": "fire control",
+            "entity_pair": [
+                "Human Torch",
+                "Firestorm"
+            ]
+        },
+        {
+            "bridge": "ice control",
+            "entity_pair": [
+                "Iceman",
+                "Killer Frost"
+            ]
+        },
+        {
+            "bridge": "martial artist",
+            "entity_pair": [
+                "Shang-Chi",
+                "Iron Fist"
+            ]
+        },
+        {
+            "bridge": "super strength",
+            "entity_pair": [
+                "Hulk",
+                "Juggernaut"
+            ]
+        },
+        {
+            "bridge": "invisibility",
+            "entity_pair": [
+                "Susan Storm",
+                "Invisible Woman"
+            ]
+        },
+        {
+            "bridge": "sonic scream",
+            "entity_pair": [
+                "Black Canary",
+                "Black Bolt"
+            ]
+        },
+        {
+            "bridge": "super strength",
+            "entity_pair": [
+                "Superman",
+                "Homelander"
+            ]
+        }
+    ]
+}

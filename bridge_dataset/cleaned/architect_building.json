@@ -1,0 +1,154 @@
+{
+    "name": "architect_building",
+    "answer_template": "<bridge> - who was the architect of both buildings <entity1> and <entity2>.",
+    "swappable": true,
+    "examples": [
+        {
+            "bridge": "Frank Lloyd Wright",
+            "entity_pair": [
+                "Fallingwater",
+                "Guggenheim Museum"
+            ]
+        },
+        {
+            "bridge": "Zaha Hadid",
+            "entity_pair": [
+                "Heydar Aliyev Center",
+                "Guangzhou Opera House"
+            ]
+        },
+        {
+            "bridge": "Frank Gehry",
+            "entity_pair": [
+                "Guggenheim Museum Bilbao",
+                "Walt Disney Concert Hall"
+            ]
+        },
+        {
+            "bridge": "Le Corbusier",
+            "entity_pair": [
+                "Unit\u00e9 d'Habitation",
+                "Notre Dame du Haut"
+            ]
+        },
+        {
+            "bridge": "Norman Foster",
+            "entity_pair": [
+                "30 St Mary Axe (The Gherkin)",
+                "Hearst Tower"
+            ]
+        },
+        {
+            "bridge": "I. M. Pei",
+            "entity_pair": [
+                "Louvre Pyramid",
+                "Bank of China Tower"
+            ]
+        },
+        {
+            "bridge": "Renzo Piano",
+            "entity_pair": [
+                "The Shard",
+                "New York Times Building"
+            ]
+        },
+        {
+            "bridge": "Santiago Calatrava",
+            "entity_pair": [
+                "Turning Torso",
+                "Milwaukee Art Museum"
+            ]
+        },
+        {
+            "bridge": "Ludwig Mies van der Rohe",
+            "entity_pair": [
+                "Seagram Building",
+                "Farnsworth House"
+            ]
+        },
+        {
+            "bridge": "Richard Meier",
+            "entity_pair": [
+                "Getty Center",
+                "Barcelona Museum of Contemporary Art"
+            ]
+        },
+        {
+            "bridge": "Jean Nouvel",
+            "entity_pair": [
+                "Institut du Monde Arabe",
+                "One Central Park"
+            ]
+        },
+        {
+            "bridge": "Tadao Ando",
+            "entity_pair": [
+                "Church of the Light",
+                "Row House in Sumiyoshi"
+            ]
+        },
+        {
+            "bridge": "Herzog & de Meuron",
+            "entity_pair": [
+                "Elbphilharmonie",
+                "Allianz Arena"
+            ]
+        },
+        {
+            "bridge": "Rem Koolhaas",
+            "entity_pair": [
+                "CCTV Headquarters",
+                "Seattle Central Library"
+            ]
+        },
+        {
+            "bridge": "Bjarke Ingels",
+            "entity_pair": [
+                "8 House",
+                "Via 57 West"
+            ]
+        },
+        {
+            "bridge": "Moshe Safdie",
+            "entity_pair": [
+                "Habitat 67",
+                "Marina Bay Sands"
+            ]
+        },
+        {
+            "bridge": "Daniel Libeskind",
+            "entity_pair": [
+                "Jewish Museum Berlin",
+                "Denver Art Museum"
+            ]
+        },
+        {
+            "bridge": "Philip Johnson",
+            "entity_pair": [
+                "Glass House",
+                "AT&T Building"
+            ]
+        },
+        {
+            "bridge": "Eero Saarinen",
+            "entity_pair": [
+                "TWA Flight Center",
+                "Gateway Arch"
+            ]
+        },
+        {
+            "bridge": "Oscar Niemeyer",
+            "entity_pair": [
+                "Niter\u00f3i Contemporary Art Museum",
+                "Cathedral of Bras\u00edlia"
+            ]
+        },
+        {
+            "bridge": "Kenzo Tange",
+            "entity_pair": [
+                "Tokyo Metropolitan Government Building",
+                "St. Mary's Cathedral"
+            ]
+        }
+    ]
+}

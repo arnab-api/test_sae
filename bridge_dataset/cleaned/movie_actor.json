@@ -1,0 +1,371 @@
+{
+    "name": "movie_actor",
+    "answer_template": "<bridge> - a movie where <entity1> played the role of <entity2>.",
+    "swappable": false,
+    "examples": [
+        {
+            "bridge": "A Beautiful Mind",
+            "entity_pair": [
+                "Russell Crowe",
+                "John Nash"
+            ]
+        },
+        {
+            "bridge": "Gandhi",
+            "entity_pair": [
+                "Ben Kingsley",
+                "Mahatma Gandhi"
+            ]
+        },
+        {
+            "bridge": "The Theory of Everything",
+            "entity_pair": [
+                "Eddie Redmayne",
+                "Stephen Hawking"
+            ]
+        },
+        {
+            "bridge": "Lincoln",
+            "entity_pair": [
+                "Daniel Day-Lewis",
+                "Abraham Lincoln"
+            ]
+        },
+        {
+            "bridge": "The Social Network",
+            "entity_pair": [
+                "Jesse Eisenberg",
+                "Mark Zuckerberg"
+            ]
+        },
+        {
+            "bridge": "Ray",
+            "entity_pair": [
+                "Jamie Foxx",
+                "Ray Charles"
+            ]
+        },
+        {
+            "bridge": "Walk the Line",
+            "entity_pair": [
+                "Joaquin Phoenix",
+                "Johnny Cash"
+            ]
+        },
+        {
+            "bridge": "The Iron Lady",
+            "entity_pair": [
+                "Meryl Streep",
+                "Margaret Thatcher"
+            ]
+        },
+        {
+            "bridge": "Raging Bull",
+            "entity_pair": [
+                "Robert De Niro",
+                "Jake LaMotta"
+            ]
+        },
+        {
+            "bridge": "Malcolm X",
+            "entity_pair": [
+                "Denzel Washington",
+                "Malcolm X"
+            ]
+        },
+        {
+            "bridge": "Bohemian Rhapsody",
+            "entity_pair": [
+                "Rami Malek",
+                "Freddie Mercury"
+            ]
+        },
+        {
+            "bridge": "The King's Speech",
+            "entity_pair": [
+                "Colin Firth",
+                "King George VI"
+            ]
+        },
+        {
+            "bridge": "Erin Brockovich",
+            "entity_pair": [
+                "Julia Roberts",
+                "Erin Brockovich"
+            ]
+        },
+        {
+            "bridge": "Catch Me If You Can",
+            "entity_pair": [
+                "Leonardo DiCaprio",
+                "Frank Abagnale Jr."
+            ]
+        },
+        {
+            "bridge": "Schindler's List",
+            "entity_pair": [
+                "Liam Neeson",
+                "Oskar Schindler"
+            ]
+        },
+        {
+            "bridge": "Selma",
+            "entity_pair": [
+                "David Oyelowo",
+                "Martin Luther King Jr."
+            ]
+        },
+        {
+            "bridge": "The Aviator",
+            "entity_pair": [
+                "Leonardo DiCaprio",
+                "Howard Hughes"
+            ]
+        },
+        {
+            "bridge": "Capote",
+            "entity_pair": [
+                "Philip Seymour Hoffman",
+                "Truman Capote"
+            ]
+        },
+        {
+            "bridge": "Frida",
+            "entity_pair": [
+                "Salma Hayek",
+                "Frida Kahlo"
+            ]
+        },
+        {
+            "bridge": "Milk",
+            "entity_pair": [
+                "Sean Penn",
+                "Harvey Milk"
+            ]
+        },
+        {
+            "bridge": "Ali",
+            "entity_pair": [
+                "Will Smith",
+                "Muhammad Ali"
+            ]
+        },
+        {
+            "bridge": "The Imitation Game",
+            "entity_pair": [
+                "Benedict Cumberbatch",
+                "Alan Turing"
+            ]
+        },
+        {
+            "bridge": "My Week with Marilyn",
+            "entity_pair": [
+                "Michelle Williams",
+                "Marilyn Monroe"
+            ]
+        },
+        {
+            "bridge": "Steve Jobs",
+            "entity_pair": [
+                "Michael Fassbender",
+                "Steve Jobs"
+            ]
+        },
+        {
+            "bridge": "The Pursuit of Happyness",
+            "entity_pair": [
+                "Will Smith",
+                "Chris Gardner"
+            ]
+        },
+        {
+            "bridge": "Into the Wild",
+            "entity_pair": [
+                "Emile Hirsch",
+                "Christopher McCandless"
+            ]
+        },
+        {
+            "bridge": "The Wolf of Wall Street",
+            "entity_pair": [
+                "Leonardo DiCaprio",
+                "Jordan Belfort"
+            ]
+        },
+        {
+            "bridge": "Julie & Julia",
+            "entity_pair": [
+                "Meryl Streep",
+                "Julia Child"
+            ]
+        },
+        {
+            "bridge": "Rocketman",
+            "entity_pair": [
+                "Taron Egerton",
+                "Elton John"
+            ]
+        },
+        {
+            "bridge": "Hidden Figures",
+            "entity_pair": [
+                "Taraji P. Henson",
+                "Katherine Johnson"
+            ]
+        },
+        {
+            "bridge": "The Pianist",
+            "entity_pair": [
+                "Adrien Brody",
+                "W\u0142adys\u0142aw Szpilman"
+            ]
+        },
+        {
+            "bridge": "The Last King of Scotland",
+            "entity_pair": [
+                "Forest Whitaker",
+                "Idi Amin"
+            ]
+        },
+        {
+            "bridge": "The Doors",
+            "entity_pair": [
+                "Val Kilmer",
+                "Jim Morrison"
+            ]
+        },
+        {
+            "bridge": "Man on the Moon",
+            "entity_pair": [
+                "Jim Carrey",
+                "Andy Kaufman"
+            ]
+        },
+        {
+            "bridge": "The Elephant Man",
+            "entity_pair": [
+                "John Hurt",
+                "Joseph Merrick"
+            ]
+        },
+        {
+            "bridge": "Patton",
+            "entity_pair": [
+                "George C. Scott",
+                "General George S. Patton"
+            ]
+        },
+        {
+            "bridge": "The Untouchables",
+            "entity_pair": [
+                "Robert De Niro",
+                "Al Capone"
+            ]
+        },
+        {
+            "bridge": "The Greatest Showman",
+            "entity_pair": [
+                "Hugh Jackman",
+                "P.T. Barnum"
+            ]
+        },
+        {
+            "bridge": "The Blind Side",
+            "entity_pair": [
+                "Sandra Bullock",
+                "Leigh Anne Tuohy"
+            ]
+        },
+        {
+            "bridge": "American Sniper",
+            "entity_pair": [
+                "Bradley Cooper",
+                "Chris Kyle"
+            ]
+        },
+        {
+            "bridge": "Catch a Fire",
+            "entity_pair": [
+                "Derek Luke",
+                "Patrick Chamusso"
+            ]
+        },
+        {
+            "bridge": "The Fighter",
+            "entity_pair": [
+                "Christian Bale",
+                "Dicky Eklund"
+            ]
+        },
+        {
+            "bridge": "The Danish Girl",
+            "entity_pair": [
+                "Eddie Redmayne",
+                "Lili Elbe"
+            ]
+        },
+        {
+            "bridge": "The Queen",
+            "entity_pair": [
+                "Helen Mirren",
+                "Queen Elizabeth II"
+            ]
+        },
+        {
+            "bridge": "The Big Short",
+            "entity_pair": [
+                "Christian Bale",
+                "Michael Burry"
+            ]
+        },
+        {
+            "bridge": "127 Hours",
+            "entity_pair": [
+                "James Franco",
+                "Aron Ralston"
+            ]
+        },
+        {
+            "bridge": "The Motorcycle Diaries",
+            "entity_pair": [
+                "Gael Garc\u00eda Bernal",
+                "Che Guevara"
+            ]
+        },
+        {
+            "bridge": "The Doors",
+            "entity_pair": [
+                "Val Kilmer",
+                "Jim Morrison"
+            ]
+        },
+        {
+            "bridge": "The Hurricane",
+            "entity_pair": [
+                "Denzel Washington",
+                "Rubin \"Hurricane\" Carter"
+            ]
+        },
+        {
+            "bridge": "The Last Emperor",
+            "entity_pair": [
+                "John Lone",
+                "Emperor Puyi"
+            ]
+        },
+        {
+            "bridge": "The People vs. Larry Flynt",
+            "entity_pair": [
+                "Woody Harrelson",
+                "Larry Flynt"
+            ]
+        },
+        {
+            "bridge": "The Social Network",
+            "entity_pair": [
+                "Andrew Garfield",
+                "Eduardo Saverin"
+            ]
+        }
+    ]
+}
