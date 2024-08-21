@@ -1,0 +1,5 @@
+# create a .env file in the project root directory
+MODEL_DIR: "<directory of local models>"
+RESULTS_DIR: "results" # where the results will be saved
+HPARAMS_DIR: "hparams" # where the hyperparameters will be saved
+DATA_DIR: "data" # experiments will look for the data here

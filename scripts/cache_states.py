@@ -6,7 +6,9 @@ import numpy as np
 import torch
 import transformers
 from datasets import load_dataset
+from tqdm.auto import tqdm
 
+from dictionary_learning.dictionary import AutoEncoder
 from src.functional import free_gpu_cache, get_module_nnsight
 from src.models import ModelandTokenizer, prepare_input
 from src.utils import env_utils, experiment_utils, logging_utils
@@ -23,56 +25,72 @@ logger.info(f"{transformers.__version__=}")
 
 def cache_activations(
     model_name: str,
+    sae_data_name: str,
+    eval_dataset_name: str,
     limit: int = 20000,
     context_limit: int = 1024,
-    save_dir: str = "cache_states",
+    save_dir: str = "sae_mixtures",
 ):
     mt = ModelandTokenizer(
         model_key=model_name,
         torch_dtype=torch.float16,
     )
 
+    model_data_dir = os.path.join(
+        model_name.split("/")[-1],
+        sae_data_name.split("/")[-1],
+    )
+
     cache_dir = os.path.join(
         env_utils.DEFAULT_RESULTS_DIR,
         save_dir,
-        model_name.split("/")[-1],
+        model_data_dir,
     )
     os.makedirs(cache_dir, exist_ok=True)
 
-    ds = load_dataset("Salesforce/wikitext", "wikitext-103-v1")
-    counter = 0
+    sae_dir = os.path.join(
+        env_utils.DEFAULT_RESULTS_DIR, "trained_saes", model_data_dir, "trainer_0/ae.pt"
+    )
+    sae = AutoEncoder.from_pretrained(path=sae_dir, device=mt.device).to(mt.dtype)
 
-    for doc_idx in np.random.permutation(len(ds["train"])):
-        doc = ds["train"][int(doc_idx)]["text"]
+    dataset = load_dataset(eval_dataset_name)
+    context_limit = 1024
+    limit = min(limit, len(dataset["train"]))
+
+    sae_layer_name = mt.layer_name_format.format(mt.n_layer // 2)
+    relu = torch.nn.ReLU()
+
+    for doc_index, doc in tqdm(enumerate(dataset["train"][:limit]["text"])):
         inputs = prepare_input(prompts=doc, tokenizer=mt)
-
-        if inputs["input_ids"].shape[1] < 30:  # ignore too short documents
-            continue
-        elif inputs["input_ids"].shape[1] > context_limit:
+        if inputs["input_ids"].shape[1] > context_limit:
             inputs["input_ids"] = inputs["input_ids"][:, :context_limit]
             inputs["attention_mask"] = inputs["attention_mask"][:, :context_limit]
 
-        doc_cache: dict[int, torch.Tensor] = {}
+        # print(f"{doc=}")
+        # logger.info(inputs["input_ids"].shape)
 
         with mt.trace(inputs, scan=False, validate=False) as trace:
-            for layer in mt.layer_names:
-                module = get_module_nnsight(mt, layer)
-                doc_cache[layer] = module.output[0].save()
+            module = get_module_nnsight(mt, sae_layer_name)
+            sae_input = module.output[0].save()
 
-        for layer in mt.layer_names:
-            doc_cache[layer] = (
-                doc_cache[layer].detach().cpu().numpy().astype(np.float32)
-            )
+        sae_mixture = relu(sae.encoder(sae_input))
+        # logger.info(f"{sae_input.shape=} | {sae_mixture.shape=}")
 
-        cache_path = os.path.join(cache_dir, f"{doc_idx}")
-        np.savez_compressed(cache_path, **doc_cache)
+        cache = {
+            "layer": sae_layer_name,
+            "doc": doc,
+            "sae_input": sae_input.detach().cpu().numpy().astype(np.float32),
+            "sae_mixture": sae_mixture.detach().cpu().numpy().astype(np.float32),
+        }
+
+        cache_path = os.path.join(cache_dir, f"{doc_index}")
+        np.savez_compressed(cache_path, **cache)
 
         free_gpu_cache()
-        counter += inputs["input_ids"].shape[1]
-        if counter > limit:
-            break
 
-        logger.info(f"Processed {counter}/{limit} tokens ({counter/limit:.2%})")
+        logger.info(
+            f"Processed {doc_index+1}/{limit} tokens ({(doc_index+1)/limit:.2%})"
+        )
 
 
 if __name__ == "__main__":
@@ -84,21 +102,25 @@ if __name__ == "__main__":
         "--model",
         type=str,
         choices=[
-            "meta-llama/Meta-Llama-3-8B",
-            "meta-llama/Meta-Llama-3-8B-Instruct",
-            "meta-llama/Llama-2-7b-hf",
-            "meta-llama/Llama-2-13B-hf",
-            "EleutherAI/gpt-j-6b",
+            "EleutherAI/pythia-160m",
+            "EleutherAI/pythia-410m",
             "openai-community/gpt2",
             "openai-community/gpt2-xl",
         ],
-        default="meta-llama/Meta-Llama-3-8B-Instruct",
+        default="openai-community/gpt2",
     )
 
     parser.add_argument(
-        "--save_dir",
+        "--sae-data",
         type=str,
-        default="cache_states",
+        choices=["wikimedia/wikipedia", "roneneldan/TinyStories"],
+        default="wikimedia/wikipedia",
+    )
+
+    parser.add_argument(
+        "--eval-data",
+        type=str,
+        default="mickume/harry_potter_tiny",
     )
 
     parser.add_argument(
@@ -107,10 +129,22 @@ if __name__ == "__main__":
         default=20000,
     )
 
+    parser.add_argument(
+        "--save_dir",
+        type=str,
+        default="sae_mixtures",
+    )
+
     args = parser.parse_args()
     logging_utils.configure(args)
     experiment_utils.setup_experiment(args)
 
     logger.info(args)
 
-    cache_activations(model_name=args.model, limit=args.limit, save_dir=args.save_dir)
+    cache_activations(
+        model_name=args.model,
+        sae_data_name=args.sae_data,
+        eval_dataset_name=args.eval_data,
+        limit=args.limit,
+        save_dir=args.save_dir,
+    )
