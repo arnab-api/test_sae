@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import time
 from typing import Optional
 
 import torch
@@ -86,18 +87,19 @@ def train_SAE(
                 "warmup_steps": 10000,
                 "resample_steps": None,
                 "seed": None,
-                "wandb_name": "StandardTrainer",
+                "wandb_name": f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}",
                 "lm_name": mt.name,
                 "layer": submodule,
                 "submodule_name": "residual",
             }
         ],
         save_dir=cache_dir,
-        save_steps=1000,
-        wandb_entity="dl-homeworks",
+        save_steps=10,
         use_wandb=True,
+        wandb_entity="dl-homeworks",
         wandb_project="test_sae",
-        log_steps=100,
+        log_steps=5,
+        wandb_name=f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}___{str(time.ctime()).replace(' ', '_')}",
     )
 
 
