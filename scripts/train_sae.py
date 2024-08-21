@@ -94,6 +94,7 @@ def train_SAE(
         ],
         save_dir=cache_dir,
         save_steps=1000,
+        wandb_entity="dl-homeworks",
         use_wandb=True,
         wandb_project="test_sae",
         log_steps=100,
