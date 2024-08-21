@@ -94,11 +94,11 @@ def train_SAE(
             }
         ],
         save_dir=cache_dir,
-        save_steps=10,
+        save_steps=1000,
         use_wandb=True,
         wandb_entity="dl-homeworks",
         wandb_project="test_sae",
-        log_steps=5,
+        log_steps=50,
         wandb_name=f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}___{str(time.ctime()).replace(' ', '_')}",
     )
 
