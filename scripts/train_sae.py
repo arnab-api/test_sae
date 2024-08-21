@@ -127,7 +127,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--doc-limit",
         type=int,
-        default=1000000,
+        default=10000,
     )
 
     parser.add_argument(
