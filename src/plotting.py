@@ -175,9 +175,7 @@ def matrix_heatmap(
 
     matrix = torch.stack([w[:limit_dim] for w in matrix[:limit_dim]]).cpu()
     limit = max(abs(matrix.min().item()), abs(matrix.max().item()))
-    img = plt.imshow(
-        matrix, cmap="RdBu", interpolation="nearest", vmin=-limit, vmax=limit
-    )
+    img = plt.imshow(matrix, cmap="RdBu", interpolation="nearest", vmin=0, vmax=limit)
     canvas.colorbar(img, orientation="vertical")
 
     if x_label is not None:

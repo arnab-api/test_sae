@@ -44,6 +44,7 @@ def cache_activations(
     cache_dir = os.path.join(
         env_utils.DEFAULT_RESULTS_DIR,
         save_dir,
+        eval_dataset_name.split("/")[-1],
         model_data_dir,
     )
     os.makedirs(cache_dir, exist_ok=True)
@@ -120,13 +121,17 @@ if __name__ == "__main__":
     parser.add_argument(
         "--eval-data",
         type=str,
-        default="mickume/harry_potter_tiny",
+        choices=[
+            "mickume/harry_potter_tiny",
+            "jahjinx/IMDb_movie_reviews",
+        ],
+        default="jahjinx/IMDb_movie_reviews",
     )
 
     parser.add_argument(
         "--limit",
         type=int,
-        default=20000,
+        default=8000,
     )
 
     parser.add_argument(
