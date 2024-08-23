@@ -114,7 +114,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--sae-data",
         type=str,
-        choices=["wikimedia/wikipedia", "roneneldan/TinyStories"],
+        choices=["wikimedia/wikipedia", "roneneldan/TinyStories", "rand_1", "rand_2"],
         default="wikimedia/wikipedia",
     )
 
