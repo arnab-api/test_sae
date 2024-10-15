@@ -29,7 +29,11 @@ def train_SAE(
     dataset_name: str,
     limit_docs: int = 1000000,
     save_dir: str = "trained_sae",
-    dictionary_dim: int = 4096,
+    dictionary_dim: int = 16384,
+    text_batch_size: int = 32,
+    context_len: int = 256,
+    save_steps: int = 1000,
+    log_steps: int = 50,
     dictionary_dim_scale_factor: Optional[int] = None,
 ):
 
@@ -46,6 +50,7 @@ def train_SAE(
         save_dir,
         model_name.split("/")[-1],
         dataset_name.split("/")[-1],
+        str(limit_docs),
     )
     os.makedirs(cache_dir, exist_ok=True)
 
@@ -68,10 +73,12 @@ def train_SAE(
         data_iter,
         mt,
         submodule,
-        d_submodule=activation_dim,  # output dimension of the model component
-        n_ctxs=500,  # you can set this higher or lower dependong on your available memory
-        device=mt.device,  # doesn't have to be the same device that you train your autoencoder on
-    )  # buffer will return batches of tensors of dimension = submodule's output dimension
+        d_submodule=activation_dim,
+        n_ctxs=text_batch_size,
+        ctx_len=context_len,
+        refresh_batch_size=text_batch_size,
+        device=mt.device,
+    )
 
     # train the sparse autoencoder (SAE)
     ae = trainSAE(
@@ -87,18 +94,18 @@ def train_SAE(
                 "warmup_steps": 10000,
                 "resample_steps": None,
                 "seed": None,
-                "wandb_name": f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}",
+                "wandb_name": f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}_{str(limit_docs)}",
                 "lm_name": mt.name,
                 "layer": submodule,
                 "submodule_name": "residual",
             }
         ],
         save_dir=cache_dir,
-        save_steps=1000,
+        save_steps=save_steps,
         use_wandb=True,
         wandb_entity="dl-homeworks",
         wandb_project="test_sae",
-        log_steps=50,
+        log_steps=log_steps,
         wandb_name=f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}___{str(time.ctime()).replace(' ', '_')}",
     )
 
@@ -112,10 +119,12 @@ if __name__ == "__main__":
         "--model",
         type=str,
         choices=[
-            "EleutherAI/pythia-160m",
-            "EleutherAI/pythia-410m",
-            "openai-community/gpt2",
-            "openai-community/gpt2-xl",
+            # "EleutherAI/pythia-160m",
+            # "EleutherAI/pythia-410m",
+            # "openai-community/gpt2",
+            # "openai-community/gpt2-xl",
+            "google/gemma-2-2b",
+            "meta-llama/Llama-3.2-1B",
         ],
         default="openai-community/gpt2",
     )
@@ -136,7 +145,37 @@ if __name__ == "__main__":
     parser.add_argument(
         "--save_dir",
         type=str,
-        default="trained_saes",
+        default="train_saes",
+    )
+
+    parser.add_argument(
+        "--dictionary_dim",
+        type=int,
+        default=16384,
+    )
+
+    parser.add_argument(
+        "--text_batch_size",
+        type=int,
+        default=32,
+    )
+
+    parser.add_argument(
+        "--context_len",
+        type=int,
+        default=256,
+    )
+
+    parser.add_argument(
+        "--save_steps",
+        type=int,
+        default=1000,
+    )
+
+    parser.add_argument(
+        "--log_steps",
+        type=int,
+        default=10,
     )
 
     args = parser.parse_args()

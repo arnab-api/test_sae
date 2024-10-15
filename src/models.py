@@ -11,6 +11,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.utils.env_utils import DEFAULT_MODELS_DIR
 from src.utils.typing import TokenizerOutput
+from src.utils.tokenization_utils import set_padding_side
 
 logger = logging.getLogger(__name__)
 
@@ -516,6 +517,8 @@ def prepare_input(
     device: torch.device = "cpu",
     add_bos_token: bool = False,
     return_offsets_mapping=False,
+    padding_side: Optional[Literal["left", "right"]] = None,
+    **kwargs,
 ) -> TokenizerOutput:
     """Prepare input for the model."""
     if isinstance(tokenizer, ModelandTokenizer):
@@ -532,12 +535,16 @@ def prepare_input(
         prompts = [maybe_prefix_bos(tokenizer, p) for p in prompts]
     prompts = [p for p in prompts for _ in range(n_gen_per_prompt)]
 
-    inputs = tokenizer(
-        prompts,
-        return_tensors="pt",
-        padding="longest",
-        return_offsets_mapping=return_offsets_mapping,
-    )
+    padding_side = padding_side or tokenizer.padding_side
+
+    with set_padding_side(tokenizer, padding_side):
+        inputs = tokenizer(
+            prompts,
+            return_tensors="pt",
+            padding="longest",
+            return_offsets_mapping=return_offsets_mapping,
+            **kwargs,
+        )
 
     if calculate_offsets:
         offsets = []
