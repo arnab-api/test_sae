@@ -9,8 +9,13 @@ import transformers
 from datasets import load_dataset
 
 from dictionary_learning import ActivationBuffer
-from dictionary_learning.dictionary import AutoEncoder
-from dictionary_learning.trainers.standard import StandardTrainer
+from dictionary_learning.dictionary import AutoEncoder, GatedAutoEncoder
+from dictionary_learning.trainers import (
+    TrainerTopK,
+    GatedSAETrainer,
+    GatedAnnealTrainer,
+    StandardTrainer,
+)
 from dictionary_learning.training import trainSAE
 from src.functional import get_module_nnsight
 from src.models import ModelandTokenizer
@@ -28,12 +33,13 @@ def train_SAE(
     model_name: str,
     dataset_name: str,
     limit_docs: int = 1000000,
-    save_dir: str = "trained_sae",
+    save_dir: str = "train_sae",
     dictionary_dim: int = 16384,
     text_batch_size: int = 32,
     context_len: int = 256,
-    save_steps: int = 1000,
-    log_steps: int = 50,
+    checkpoint_interval: int = 1000,
+    store_checkpoints_on_steps: list = [0, 10, 50, 100, 500],
+    log_steps: int = 25,
     dictionary_dim_scale_factor: Optional[int] = None,
 ):
 
@@ -81,17 +87,22 @@ def train_SAE(
     )
 
     # train the sparse autoencoder (SAE)
+    n_steps_approx = limit_docs // (text_batch_size)
+    warmup_steps = min(max(n_steps_approx // 10, 5), 3000)
+    logger.info(f"expected steps: {n_steps_approx}, warmup steps: {warmup_steps}")
     ae = trainSAE(
         data=data_buffer,
         trainer_configs=[
             {
-                "trainer": StandardTrainer,
-                "dict_class": AutoEncoder,
+                # "trainer": StandardTrainer,
+                # "dict_class": AutoEncoder,
+                "trainer": GatedSAETrainer,
+                "dict_class": GatedAutoEncoder,
                 "activation_dim": activation_dim,
                 "dict_size": dictionary_dim,
-                "lr": 1e-3,
+                "lr": 1e-5,
                 "l1_penalty": 1e-1,
-                "warmup_steps": 10000,
+                "warmup_steps": warmup_steps,
                 "resample_steps": None,
                 "seed": None,
                 "wandb_name": f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}_{str(limit_docs)}",
@@ -101,7 +112,8 @@ def train_SAE(
             }
         ],
         save_dir=cache_dir,
-        save_steps=save_steps,
+        save_steps=checkpoint_interval,
+        store_checkpoints_on_steps=store_checkpoints_on_steps,
         use_wandb=True,
         wandb_entity="dl-homeworks",
         wandb_project="test_sae",
@@ -121,10 +133,11 @@ if __name__ == "__main__":
         choices=[
             # "EleutherAI/pythia-160m",
             # "EleutherAI/pythia-410m",
-            # "openai-community/gpt2",
+            "openai-community/gpt2",
             # "openai-community/gpt2-xl",
             "google/gemma-2-2b",
             "meta-llama/Llama-3.2-1B",
+            "Qwen/Qwen2.5-1.5B",
         ],
         default="openai-community/gpt2",
     )
@@ -143,37 +156,37 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--save_dir",
+        "--save-dir",
         type=str,
-        default="train_saes",
+        default="train_sae",
     )
 
     parser.add_argument(
-        "--dictionary_dim",
+        "--dictionary-dim",
         type=int,
         default=16384,
     )
 
     parser.add_argument(
-        "--text_batch_size",
+        "--batch-size",
         type=int,
         default=32,
     )
 
     parser.add_argument(
-        "--context_len",
+        "--context-len",
         type=int,
         default=256,
     )
 
     parser.add_argument(
-        "--save_steps",
+        "--save-steps",
         type=int,
         default=1000,
     )
 
     parser.add_argument(
-        "--log_steps",
+        "--log-steps",
         type=int,
         default=10,
     )
@@ -189,4 +202,9 @@ if __name__ == "__main__":
         dataset_name=args.dataset,
         limit_docs=args.doc_limit,
         save_dir=args.save_dir,
+        dictionary_dim=args.dictionary_dim,
+        text_batch_size=args.batch_size,
+        context_len=args.context_len,
+        checkpoint_interval=args.save_steps,
+        log_steps=args.log_steps,
     )
