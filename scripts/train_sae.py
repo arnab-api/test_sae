@@ -101,7 +101,7 @@ def train_SAE(
                 "activation_dim": activation_dim,
                 "dict_size": dictionary_dim,
                 "lr": 1e-5,
-                "l1_penalty": 1e-1,
+                "l1_penalty": 3 * 1e-1,  # it seems to need a bit of a push
                 "warmup_steps": warmup_steps,
                 "resample_steps": None,
                 "seed": None,
@@ -138,6 +138,7 @@ if __name__ == "__main__":
             "google/gemma-2-2b",
             "meta-llama/Llama-3.2-1B",
             "Qwen/Qwen2.5-1.5B",
+            "allenai/OLMo-1B-0724-hf",
         ],
         default="openai-community/gpt2",
     )
