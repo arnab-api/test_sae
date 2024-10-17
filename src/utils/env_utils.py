@@ -33,7 +33,7 @@ try:
             GPT_4O_CACHE_DIR,
         ]:
             if not os.path.exists(dir):
-                os.makedirs(dir)
+                os.makedirs(dir, exist_ok=True)
 
 except FileNotFoundError:
     logger.error(
