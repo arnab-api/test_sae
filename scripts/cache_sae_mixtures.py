@@ -8,7 +8,7 @@ import transformers
 from datasets import load_dataset
 from tqdm.auto import tqdm
 
-from dictionary_learning.dictionary import AutoEncoder
+from dictionary_learning.dictionary import AutoEncoder, GatedAutoEncoder
 from src.functional import free_gpu_cache, get_module_nnsight
 from src.models import ModelandTokenizer, prepare_input
 from src.utils import env_utils, experiment_utils, logging_utils
@@ -27,9 +27,10 @@ def cache_activations(
     model_name: str,
     sae_data_name: str,
     eval_dataset_name: str,
+    sae_data_checkpoint: int = 2000000,
     limit: int = 20000,
     context_limit: int = 1024,
-    save_dir: str = "sae_mixtures",
+    save_dir: str = "cache_sae_mixtures",
 ):
     mt = ModelandTokenizer(
         model_key=model_name,
@@ -46,13 +47,18 @@ def cache_activations(
         save_dir,
         eval_dataset_name.split("/")[-1],
         model_data_dir,
+        str(sae_data_checkpoint),
     )
     os.makedirs(cache_dir, exist_ok=True)
 
     sae_dir = os.path.join(
-        env_utils.DEFAULT_RESULTS_DIR, "trained_saes", model_data_dir, "trainer_0/ae.pt"
+        env_utils.DEFAULT_RESULTS_DIR,
+        "train_sae",
+        model_data_dir,
+        str(sae_data_checkpoint),
+        "trainer_0/ae.pt",
     )
-    sae = AutoEncoder.from_pretrained(path=sae_dir, device=mt.device).to(mt.dtype)
+    sae = GatedAutoEncoder.from_pretrained(path=sae_dir, device=mt.device).to(mt.dtype)
 
     dataset = load_dataset(eval_dataset_name)
     context_limit = 1024
@@ -74,7 +80,7 @@ def cache_activations(
             module = get_module_nnsight(mt, sae_layer_name)
             sae_input = module.output[0].save()
 
-        sae_mixture = relu(sae.encoder(sae_input))
+        sae_mixture = sae.encode(sae_input)
         # logger.info(f"{sae_input.shape=} | {sae_mixture.shape=}")
 
         cache = {
@@ -103,18 +109,21 @@ if __name__ == "__main__":
         "--model",
         type=str,
         choices=[
-            "EleutherAI/pythia-160m",
-            "EleutherAI/pythia-410m",
-            "openai-community/gpt2",
-            "openai-community/gpt2-xl",
+            # "EleutherAI/pythia-160m",
+            # "EleutherAI/pythia-410m",
+            # "openai-community/gpt2",
+            # "openai-community/gpt2-xl",
+            "meta-llama/Llama-3.2-1B",
+            "Qwen/Qwen2.5-1.5B",
+            "allenai/OLMo-1B-0724-hf",
         ],
-        default="openai-community/gpt2",
+        default="meta-llama/Llama-3.2-1B",
     )
 
     parser.add_argument(
         "--sae-data",
         type=str,
-        choices=["wikimedia/wikipedia", "roneneldan/TinyStories", "rand_1", "rand_2"],
+        choices=["wikimedia/wikipedia", "roneneldan/TinyStories"],
         default="wikimedia/wikipedia",
     )
 
@@ -129,15 +138,21 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--sae-checkpoint",
+        type=int,
+        default=2000000,
+    )
+
+    parser.add_argument(
         "--limit",
         type=int,
         default=8000,
     )
 
     parser.add_argument(
-        "--save_dir",
+        "--save-dir",
         type=str,
-        default="sae_mixtures",
+        default="cache_sae_mixtures",
     )
 
     args = parser.parse_args()
@@ -152,4 +167,5 @@ if __name__ == "__main__":
         eval_dataset_name=args.eval_data,
         limit=args.limit,
         save_dir=args.save_dir,
+        sae_data_checkpoint=args.sae_checkpoint,
     )
