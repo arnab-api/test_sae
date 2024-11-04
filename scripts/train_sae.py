@@ -105,10 +105,10 @@ def train_SAE(
                 "warmup_steps": warmup_steps,
                 "resample_steps": None,
                 "seed": None,
-                "wandb_name": f"{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}_{str(limit_docs)}",
+                "wandb_name": f"DISENT_{mt.name.split('/')[-1]}_{dataset_name.split('/')[-1]}_{str(limit_docs)}",
                 "lm_name": mt.name,
                 "layer": submodule,
-                "submodule_name": "residual",
+                "submodule_name": mt.layer_name_format.format(mt.n_layer // 2),
             }
         ],
         save_dir=cache_dir,

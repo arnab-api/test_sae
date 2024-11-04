@@ -566,9 +566,10 @@ def prepare_input(
         device = determine_device(
             tokenizer
         )  # if tokenizer type is ModelandTokenizer, get device and ignore the passed device
-    calculate_offsets = return_offsets_mapping and (
-        isinstance(tokenizer, ModelandTokenizer) and "llama-3" in tokenizer.name.lower()
-    )
+    # calculate_offsets = return_offsets_mapping and (
+    #     isinstance(tokenizer, ModelandTokenizer) and "llama-3" in tokenizer.name.lower()
+    # )
+    calculate_offsets = False # updated tokenizer fixed offset mapping issue for llama tokenizers
 
     tokenizer = unwrap_tokenizer(tokenizer)
     prompts = [prompts] if isinstance(prompts, str) else prompts
